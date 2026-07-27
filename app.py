@@ -244,15 +244,6 @@ st.markdown(ticker_html, unsafe_allow_html=True)
 col_a, col_b = st.columns([2, 2])
 with col_a:
     selected_stock = st.selectbox("Choose a stock", list(stocks.keys()))
-with col_b:
-    custom_symbol = st.text_input(
-        "Or enter another US stock symbol",
-        placeholder="Example: META",
-    )
-
-if custom_symbol.strip():
-    symbol = custom_symbol.strip().upper()
-else:
     symbol = stocks[selected_stock]
 
 get_data = st.button("Get stock data", type="primary")
