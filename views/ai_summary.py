@@ -75,7 +75,7 @@ advice. Clearly state that this is educational analysis of the displayed data.
 
         try:
             message = client.messages.create(
-                model="claude-3-5-sonnet-latest",
+                model="claude-sonnet-5",
                 max_tokens=700,
                 system=(
                     "You are a careful educational stock-data explainer. "
@@ -85,7 +85,7 @@ advice. Clearly state that this is educational analysis of the displayed data.
             )
         except anthropic.NotFoundError:
             message = client.messages.create(
-                model="claude-3-5-haiku-latest",
+                model="claude-haiku-4-5",
                 max_tokens=700,
                 system=(
                     "You are a careful educational stock-data explainer. "
@@ -111,8 +111,9 @@ advice. Clearly state that this is educational analysis of the displayed data.
         return None, "Claude rate limit reached. Please try again later."
     except anthropic.APIConnectionError:
         return None, "Unable to connect to Claude right now."
-    except anthropic.APIError:
-        return None, "Claude could not generate an explanation right now."
+    except anthropic.APIError as e:
+        status_code = getattr(e, "status_code", "unknown")
+        return None, f"Claude API error ({status_code}): {e}"
 
 
 def get_ai_market_summary(market_rows, language="English"):
@@ -176,7 +177,7 @@ of a limited stock list and not a summary of the entire market.
 
         try:
             message = client.messages.create(
-                model="claude-3-5-sonnet-latest",
+                model="claude-sonnet-5",
                 max_tokens=900,
                 system=(
                     "You are a careful educational market-data summarizer. "
@@ -186,7 +187,7 @@ of a limited stock list and not a summary of the entire market.
             )
         except anthropic.NotFoundError:
             message = client.messages.create(
-                model="claude-3-5-haiku-latest",
+                model="claude-haiku-4-5",
                 max_tokens=900,
                 system=(
                     "You are a careful educational market-data summarizer. "
@@ -212,8 +213,9 @@ of a limited stock list and not a summary of the entire market.
         return None, "Claude rate limit reached. Please try again later."
     except anthropic.APIConnectionError:
         return None, "Unable to connect to Claude right now."
-    except anthropic.APIError:
-        return None, "Claude could not generate a market summary right now."
+    except anthropic.APIError as e:
+        status_code = getattr(e, "status_code", "unknown")
+        return None, f"Claude API error ({status_code}): {e}"
 
 
 def show():
