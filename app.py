@@ -1,5 +1,5 @@
 import streamlit as st
-from views import home, ai_summary, chatbot
+from views import home, ai_summary, chatbot, compare_stocks
 
 st.set_page_config(
     page_title="Stock Market Dashboard",
@@ -140,10 +140,17 @@ if st.sidebar.button("🤖 AI Market Insights", use_container_width=True):
 if st.sidebar.button("💬 Stock Chatbot", use_container_width=True):
     st.session_state.page = "chatbot"
 
-# Render target view
+if st.sidebar.button("⚔️ Compare Stocks", use_container_width=True):
+    st.session_state.page = "compare_stocks"
+
+# ----------------------------------------------------------------------------
+# Page View Routing
+# ----------------------------------------------------------------------------
 if st.session_state.page == "main":
     home.show()
 elif st.session_state.page == "ai_summary":
     ai_summary.show()
 elif st.session_state.page == "chatbot":
     chatbot.show()
+elif st.session_state.page == "compare_stocks":
+    compare_stocks.show()
